@@ -31,7 +31,7 @@ mongoose.connect('mongodb://localhost:27017/chat-db').then(
         const chat = new Chat({message: payload.message})
         await chat.save()
 
-        socket.emit("chat", chat)
+        io.emit("chat", chat)
       })
     });
 

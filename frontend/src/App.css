@@ -1,38 +1,29 @@
-.App {
-  text-align: center;
+.chats {
+  margin-top: 70px;
+}
+.editor {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  /* background: rgba(var(--bs-dark-rgb),var(--bs-bg-opacity)) !important */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.viewer .ql-container.ql-snow{
+  /* padding: 15px;
+  margin-top: 0 !important; */
+  border: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.viewer .public-DraftEditor-content {
+  /* min-height: auto !important; */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.ql-formats button svg path,line,rect,polyline,circle{
+  stroke: #fff !important;
 }
-
-.App-link {
-  color: #61dafb;
+.ql-formats button.ql-image svg path,line,polyline{
+  fill: #fff !important;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.ql-formats button.ql-strike svg path,line{
+  fill: #fff !important;
 }

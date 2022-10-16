@@ -1,38 +1,64 @@
 import "./App.css";
 import { io } from "socket.io-client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import ChatEditor from "./components/ChatEditor";
+import ChatViewer from "./components/ChatViewer";
+import Navbar from "./components/Navbar";
+
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const socket = io.connect("http://localhost:3000/");
 
 function App() {
-  const [message, setMessage] = useState("");
-  const [chat, setChat] = useState([])
+  const [chat, setChat] = useState([]);
+  const chatRef = useRef(null);
+  const editorRef = useRef(null);
+  // console.log(editorRef.current.clientHeight);
 
-  const sendChat = e => {
-    e.preventDefault()
-    socket.emit("chat", {message})
-    setMessage('')
-  }
+  const scrollChat = () => {
+    chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    const lastChild = chatRef.current.lastChild;
+    lastChild.scrollIntoView();
+  };
 
   useEffect(() => {
-    socket.on("initialize", payload => {
-      setChat(payload.chats)
-    })
-    socket.on("chat", payload => {
-      setChat([...chat, payload])
-    })
-  })
+    socket.on("initialize", (payload) => {
+      setChat(payload.chats);
+      scrollChat();
+    });
 
-  
+    socket.on("chat", (payload) => {
+      console.log(payload);
+      setChat([...chat, payload]);
+    });
+
+    editorRef &&
+      (chatRef.current.style.marginBottom = `${
+        parseInt(editorRef.current.clientHeight) + 24
+      }px`);
+
+    window.addEventListener("resize", () => {
+      editorRef &&
+        (chatRef.current.style.marginBottom = `${
+          parseInt(editorRef.current.clientHeight) + 24
+        }px`);
+      chat.length > 0 && scrollChat();
+    });
+  });
+
+  useEffect(() => {
+    chat.length > 0 && scrollChat();
+  }, [chat]);
 
   return (
-    <div className="App">
-      <h1>Chat Application</h1>
-      {chat.map(chat => <p key={chat._id}>{chat.message}</p>)}
-      <form onSubmit={sendChat}>
-        <input value={message} onChange={e => setMessage(e.target.value)} type="text" name="chat" placeholder="send message" />
-        <button type="submit">Send</button>
-      </form>
+    <div className="App bg-light">
+      <Navbar />
+      <div ref={chatRef} className="chats container">
+        {chat.map((chat) => (
+          <ChatViewer chat={chat} key={chat._id} />
+        ))}
+      </div>
+      <ChatEditor editorRef={editorRef} socket={socket} />
     </div>
   );
 }
