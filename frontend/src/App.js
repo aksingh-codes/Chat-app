@@ -52,7 +52,7 @@ function App() {
   }, [chat]);
 
   return (
-    <div className="App bg-light">
+    <div className="App">
       <Navbar />
       <div ref={chatRef} className="chats container">
         {chat.map((chat) => (
