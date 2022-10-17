@@ -38,7 +38,7 @@ jspm_packages
 .DS_Store
 
 #Excluding build directory
-frontend/public/
+# frontend/public/
 
 # Environment variables
 .env
