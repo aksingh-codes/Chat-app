@@ -1,11 +1,20 @@
 .chats {
-  margin-top: 70px;
+  padding-top: 70px;
 }
+
+.chat {
+  min-width: 200px;
+}
+
 .editor {
   position: fixed;
   bottom: 0;
   width: 100vw;
   /* background: rgba(var(--bs-dark-rgb),var(--bs-bg-opacity)) !important */
+}
+
+.viewer .ql-editor {
+  padding: 0;
 }
 
 .viewer .ql-container.ql-snow{
@@ -14,11 +23,21 @@
   border: 0;
 }
 
+
+.ql-editor.ql-blank::before {
+  color: #444 !important;
+}
+
+.ql-snow .ql-editor img {
+  max-width: 300px !important;
+  width: 100% !important;
+}
+
 .viewer .public-DraftEditor-content {
   /* min-height: auto !important; */
 }
 
-.ql-formats button svg path,line,rect,polyline,circle{
+/* .ql-formats button svg path,line,rect,polyline,circle{
   stroke: #fff !important;
 }
 .ql-formats button.ql-image svg path,line,polyline{
@@ -26,4 +45,4 @@
 }
 .ql-formats button.ql-strike svg path,line{
   fill: #fff !important;
-}
+} */

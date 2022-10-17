@@ -1,46 +1,47 @@
 const express = require("express");
 const http = require("http");
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+require("dotenv").config();
 
 const app = express();
 const server = http.createServer(app);
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
-const Chat = require("./models/chats")
+const Chat = require("./models/chats");
 
 const io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:3001",
+    origin: process.env.CLIENT_URL,
   },
 });
 
-mongoose.connect('mongodb://localhost:27017/chat-db').then(
-  () => {
-    console.log('✅: Connected to database')
+mongoose
+  .connect(process.env.DB_URL)
+  .then(() => {
+    console.log("✅: Connected to database");
+    main();
+  })
+  .catch(() => {
+    console.log("❌: Failed to conect to database");
+  });
 
-    io.on("connection", async (socket) => {
-      // console.log("What is socket:", socket);
-      console.log("A client connected...");
+function main() {
+  io.on("connection", async (socket) => {
+    console.log("A client connected...");
 
-      const chats = await Chat.find({})
-      socket.emit("initialize", {chats})
-    
-      socket.on("chat", async (payload) => {
-        console.log("What is payload", payload)
+    const chats = await Chat.find({});
+    socket.emit("initialize", { chats });
 
-        const chat = new Chat({message: payload.message})
-        await chat.save()
+    socket.on("chat", async (payload) => {
+      console.log("What is payload", payload);
 
-        io.emit("chat", chat)
-      })
+      const chat = new Chat({ message: payload.message });
+      await chat.save();
+
+      io.emit("chat", chat);
     });
-
-  }
-).catch(
-  () => {
-    console.log('❌: Failed to conect to database')
-  }
-)
+  });
+}
 
 server.listen(PORT, () => {
   console.log("Server running on:", PORT);

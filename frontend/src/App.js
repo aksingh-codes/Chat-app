@@ -7,13 +7,12 @@ import Navbar from "./components/Navbar";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const socket = io.connect("http://localhost:3000/");
+const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 function App() {
   const [chat, setChat] = useState([]);
   const chatRef = useRef(null);
   const editorRef = useRef(null);
-  // console.log(editorRef.current.clientHeight);
 
   const scrollChat = () => {
     chatRef.current.scrollTop = chatRef.current.scrollHeight;
@@ -21,6 +20,7 @@ function App() {
     lastChild.scrollIntoView();
   };
 
+  
   useEffect(() => {
     socket.on("initialize", (payload) => {
       setChat(payload.chats);
@@ -31,12 +31,12 @@ function App() {
       console.log(payload);
       setChat([...chat, payload]);
     });
-
+    
     editorRef &&
-      (chatRef.current.style.marginBottom = `${
-        parseInt(editorRef.current.clientHeight) + 24
-      }px`);
-
+    (chatRef.current.style.marginBottom = `${
+      parseInt(editorRef.current.clientHeight) + 24
+    }px`);
+    
     window.addEventListener("resize", () => {
       editorRef &&
         (chatRef.current.style.marginBottom = `${
@@ -48,6 +48,7 @@ function App() {
 
   useEffect(() => {
     chat.length > 0 && scrollChat();
+    console.log("chat scroll");
   }, [chat]);
 
   return (

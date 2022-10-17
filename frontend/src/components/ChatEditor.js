@@ -1,18 +1,23 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { IoMdSend } from "react-icons/io"
+
+import { IoMdSend } from "react-icons/io";
+
 
 const ChatEditor = ({ socket, editorRef }) => {
   const [value, setValue] = useState("");
 
   const modules = {
-    toolbar: [
-      ["bold", "italic", "underline", "strike"],
-      ["image", "link"],
-      ["blockquote", "code-block"],
-      [{ list: "ordered" }, { list: "bullet" }],
-    ],
+    toolbar: {
+      container: [
+        ["bold", "italic", "underline", "strike", "code"],
+        ["image", "link"],
+        ["blockquote", "code-block"],
+        [{ list: "ordered" }, { list: "bullet" }],
+      ],
+    },
+    
   };
 
   const sendMessage = (e) => {
@@ -30,6 +35,7 @@ const ChatEditor = ({ socket, editorRef }) => {
         theme="snow"
         value={value}
         onChange={setValue}
+        placeholder="Chat comes here..."
       />
       {value.length > 0 && (
         <div className="container">
