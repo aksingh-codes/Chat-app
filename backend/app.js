@@ -46,7 +46,7 @@ function main() {
 
 app.get("/", (req, res) => {
   res.status(200).json({
-    message: "Welcome to server"
+    message: "Welcome to server "
   })
 })
 
