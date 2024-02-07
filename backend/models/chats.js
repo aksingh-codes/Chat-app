@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const chatSchema = new Schema({
-  message: String, // String is shorthand for {type: String}
+  message: String,
   date: { type: Date, default: Date.now },
 });
 

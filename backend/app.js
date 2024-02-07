@@ -4,9 +4,11 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 const app = express();
-app.use(express.json())
+app.use(express.json());
 const server = http.createServer(app);
 const PORT = process.env.PORT || 4000;
+
+const userRoutes = require("./routes/user");
 
 const Chat = require("./models/chats");
 
@@ -25,6 +27,8 @@ mongoose
   .catch(() => {
     console.log("❌: Failed to conect to database");
   });
+
+app.use("/api/user", userRoutes);
 
 function main() {
   io.on("connection", async (socket) => {
@@ -46,9 +50,9 @@ function main() {
 
 app.get("/", (req, res) => {
   res.status(200).json({
-    message: "Welcome to server "
-  })
-})
+    message: "Welcome to server ",
+  });
+});
 
 server.listen(PORT, () => {
   console.log("Server running on:", PORT);
