@@ -10,6 +10,8 @@ const PORT = process.env.PORT || 4000;
 
 const userRoutes = require("./routes/user");
 const chatRoutes = require("./routes/chat");
+const messageRoutes = require("./routes/message");
+
 
 const Chat = require("./models/chats");
 
@@ -31,6 +33,7 @@ mongoose
 
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
+app.use("/api/message", messageRoutes);
 
 function main() {
   io.on("connection", async (socket) => {
