@@ -23,12 +23,12 @@ coverage
 # node-waf configuration
 .lock-wscript
 
-# Compiled binary addons (http://nodejs.org/api/addons.html)
-build/Release
-
 # Dependency directories
 node_modules
 jspm_packages
+
+# Build
+frontend/build/
 
 # Optional npm cache directory
 .npm
@@ -36,9 +36,6 @@ jspm_packages
 # Optional REPL history
 .node_repl_history
 .DS_Store
-
-#Excluding build directory
-# frontend/public/
 
 # Environment variables
 .env
